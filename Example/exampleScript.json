@@ -1,0 +1,32 @@
+[
+	{
+		"title": "Start",
+		"tags": "",
+		"body": "%Randomiser: Random1\n->Deny Randomness\n    Denial Invalid\n%Randomiser: Random2\n->Accept Randomness\n    Acceptance Invalid\n%Randomiser: Random3\n    Randomiser: 1 in 3 chance to see me!\n\n\n[[CatSound]]\n\nQuiz master: What sound does a cat make?\n->Meow\n    Correct! <<answer|correct>>\n->Moo\n    Incorrect! <<answer|incorrect>>\n->Woof <<if $(canWoof) >>\n    Epic Fail! <<exit>>\n->No Idea [[NoIdea]]\n\n<<if $(variablebool) >>\n    Variable: $(variablebool)\n\n<<if $(variablenumber) == 2 >>\n    Variable: $(variablenumber)",
+		"position": {
+			"x": -776,
+			"y": -638
+		},
+		"colorID": 0
+	},
+	{
+		"title": "CatSound",
+		"tags": "",
+		"body": "Cat: Meow!",
+		"position": {
+			"x": -502,
+			"y": -638
+		},
+		"colorID": 0
+	},
+	{
+		"title": "NoIdea",
+		"tags": "",
+		"body": "That's a shame <<exit>>",
+		"position": {
+			"x": -496,
+			"y": -416
+		},
+		"colorID": 0
+	}
+]
