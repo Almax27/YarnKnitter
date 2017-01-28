@@ -19,11 +19,11 @@ public:
     };
     typedef std::vector<NodeState> NodeStack;
 public:
-  	virtual ~DialogueController();
+    virtual ~DialogueController();
     /*! ctor
      @param _dialogueResolver resolver used to handle actions, variables, etc
      @param _seed seed used for random content */
-	  DialogueController(IDialogueDelegate* _dialogueDelegate = nullptr,
+    DialogueController(IDialogueDelegate* _dialogueDelegate = nullptr,
                        const IDialogueResolver* _dialogueResolver = nullptr);
 
     //-------------------------------------------
@@ -35,14 +35,14 @@ public:
 
     /*! Add Dialogue Node
      @return true if name is unique */
-	  bool addNode(const DialogueNode& _node);
+    bool addNode(const DialogueNode& _node);
 
     /*! Remove node by name
      @return true if the node was successfully removed*/
     bool removeNode(const std::string& name);
 
     /*! Remove all added nodes. Calling this during active dialogue may cause the dialogue to stop */
-	  void clearNodes();
+    void clearNodes();
 
     /*! Retrieve node by name (title)
      @return a pointer to the node or nullptr if not found*/
@@ -120,7 +120,7 @@ protected:
         std::function<void(void)> resolveActions;
     };
     std::vector<Option> m_presentedOptions;
-	  bool m_isSkipping;
+    bool m_isSkipping;
     bool m_isProgressing;
     bool m_isPaused;
     bool m_pendingStop;

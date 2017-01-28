@@ -11,7 +11,7 @@ struct DialogueOption
 
 struct DialogueContent
 {
-	std::string actorKey;
-	std::string speech;
+    std::string actorKey;
+    std::string speech;
     std::vector<DialogueOption> options;
 };

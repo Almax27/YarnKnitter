@@ -14,7 +14,7 @@
 
 DialogueController::DialogueController(IDialogueDelegate* _dialogueDelegate,
                                        const IDialogueResolver* _dialogueResolver)
-	: m_dialogueDelegate(_dialogueDelegate)
+    : m_dialogueDelegate(_dialogueDelegate)
     , m_dialogueResolver(_dialogueResolver)
     , m_isSkipping(false)
     , m_isProgressing(false)
@@ -26,7 +26,7 @@ DialogueController::DialogueController(IDialogueDelegate* _dialogueDelegate,
 
 DialogueController::~DialogueController()
 {
-	clearNodes();
+    clearNodes();
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -57,37 +57,37 @@ bool DialogueController::addNode(const std::string &_name, const std::string &_t
 
 bool DialogueController::addNode(const DialogueNode& _node)
 {
-	auto it = m_nodes.find(_node.name);
-	if (it == m_nodes.end())
-	{
-		m_nodes.insert(std::make_pair(_node.name, new DialogueNode(_node)));
-		return true;
-	}
-	else
-	{
-		LOG("Failed to add node: name '%s' already in use", _node.name.c_str());
-		return false;
-	}
+    auto it = m_nodes.find(_node.name);
+    if (it == m_nodes.end())
+    {
+        m_nodes.insert(std::make_pair(_node.name, new DialogueNode(_node)));
+        return true;
+    }
+    else
+    {
+        LOG("Failed to add node: name '%s' already in use", _node.name.c_str());
+        return false;
+    }
 }
 
 void DialogueController::clearNodes()
 {
-	for (auto& pair : m_nodes)
-	{
-		delete pair.second;
-	}
-	m_nodes.clear();
+    for (auto& pair : m_nodes)
+    {
+        delete pair.second;
+    }
+    m_nodes.clear();
     m_nodeStack.clear();
 }
 
 DialogueNode* DialogueController::getNodeByName(const std::string& _name) const
 {
-	auto it = m_nodes.find(_name);
-	if (it != m_nodes.end())
-	{
-		return it->second;
-	}
-	return nullptr;
+    auto it = m_nodes.find(_name);
+    if (it != m_nodes.end())
+    {
+        return it->second;
+    }
+    return nullptr;
 }
 
 void DialogueController::getActors(std::vector<std::string>& out_actorKeys) const
@@ -255,18 +255,18 @@ void DialogueController::skipDialogue()
 {
     if(m_isPaused) return;
 
-	if (m_nodeStack.empty() == false)
-	{
-		m_isSkipping = true;
-		while (m_isSkipping)
-		{
-			m_isSkipping = progressDialogue();
-		}
-	}
-	else
-	{
-		LOGERROR("Failed to skip dialogue: Empty node stack");
-	}
+    if (m_nodeStack.empty() == false)
+    {
+        m_isSkipping = true;
+        while (m_isSkipping)
+        {
+            m_isSkipping = progressDialogue();
+        }
+    }
+    else
+    {
+        LOGERROR("Failed to skip dialogue: Empty node stack");
+    }
 }
 
 //-------------------------------------------------------------------------------------------------------------------

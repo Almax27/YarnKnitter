@@ -30,5 +30,3 @@
 
 #ifndef LOGERROR
 #endif
-
-

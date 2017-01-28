@@ -77,11 +77,11 @@ int calulateIndentLevel(const string& _string)
 template <typename T>
 T fromString(const std::string &str)
 {
-	std::istringstream is(str);
-	T t;
-	is >> t;
-	if (is.fail()) throw std::invalid_argument("");
-	return t;
+    std::istringstream is(str);
+    T t;
+    is >> t;
+    if (is.fail()) throw std::invalid_argument("");
+    return t;
 }
 
 //------------------------------------
@@ -116,15 +116,15 @@ void DialogueLineParser::parse(const string& _name,
         {
             lineString = lineString.substr(0, lineCommentStartIndex);
         }
-		//replace endline tokens
-		{
-			size_t pos = 0;
-			std::string token("\\n");
-			while ((pos = lineString.find(token, pos)) != std::string::npos) {
-				lineString.replace(pos, token.length(), "\n");
-				pos += 1;
-			}
-		}
+        //replace endline tokens
+        {
+            size_t pos = 0;
+            std::string token("\\n");
+            while ((pos = lineString.find(token, pos)) != std::string::npos) {
+                lineString.replace(pos, token.length(), "\n");
+                pos += 1;
+            }
+        }
         //add line
         lines.push_back(lineString);
     }
@@ -143,14 +143,14 @@ size_t DialogueLineParser::parseNodes(const string& _name,
     node.name = _name;
     node.tags = _tags;
 
-	DialogueNode potentialNode; //used to store potential nodes
+    DialogueNode potentialNode; //used to store potential nodes
     const auto flushPotentialLines = [&]()
     {
         if(potentialNode.lines.empty() == false)
         {
             const auto& resolvedLine = potentialNode.lines[rand() % potentialNode.lines.size()];
-			node.lines.push_back(resolvedLine);
-			potentialNode.lines.clear();
+            node.lines.push_back(resolvedLine);
+            potentialNode.lines.clear();
         }
     };
 
@@ -159,15 +159,15 @@ size_t DialogueLineParser::parseNodes(const string& _name,
     {
         string lineString = _lines[i];
         int lineIndent = calulateIndentLevel(lineString);
-		trim(lineString);
+        trim(lineString);
 
-		//if this line is an option and we're processing potentials then parse this into the potential node
-		if (startsWith(lineString, k_optionShortcut) && potentialNode.lines.empty() == false)
-		{
-			parseLine(lineString, potentialNode);
-			i++;
-			continue;
-		}
+        //if this line is an option and we're processing potentials then parse this into the potential node
+        if (startsWith(lineString, k_optionShortcut) && potentialNode.lines.empty() == false)
+        {
+            parseLine(lineString, potentialNode);
+            i++;
+            continue;
+        }
 
         //not for us, parse next depth
         if(lineIndent > _indentLevel)
@@ -177,19 +177,19 @@ size_t DialogueLineParser::parseNodes(const string& _name,
             i = parseNodes(nameStream.str(), _tags, _lines, i, lineIndent, _nodeSet);
 
             //TODO: probably a better way of doing this, also it looks disgusting :D
-			//link option on previous line to most recently parsed node
-			DialogueNode::Line* previousLine = nullptr;
-			if (potentialNode.lines.empty() == false)
-			{
-				previousLine = &potentialNode.lines.back();
-			}
-			else
-			{
-				if (node.lines.empty() == false)
-				{
-					previousLine = &node.lines.back();
-				}
-			}
+            //link option on previous line to most recently parsed node
+            DialogueNode::Line* previousLine = nullptr;
+            if (potentialNode.lines.empty() == false)
+            {
+                previousLine = &potentialNode.lines.back();
+            }
+            else
+            {
+                if (node.lines.empty() == false)
+                {
+                    previousLine = &node.lines.back();
+                }
+            }
             if(previousLine != nullptr)
             {
                 if(previousLine->options.empty() == false)
@@ -206,7 +206,7 @@ size_t DialogueLineParser::parseNodes(const string& _name,
                 }
                 else
                 {
-					previousLine->gotoNode = _nodeSet.back().name;
+                    previousLine->gotoNode = _nodeSet.back().name;
                 }
             }
             continue;
@@ -223,7 +223,7 @@ size_t DialogueLineParser::parseNodes(const string& _name,
         //if this line is is a potential remove the potential symbol and parse into the potential node
         if(startsWith(lineString, k_potentialLine))
         {
-			parseLine(lineString.substr(k_potentialLine.size()), potentialNode);
+            parseLine(lineString.substr(k_potentialLine.size()), potentialNode);
         }
         //else this line is not potential, so flush and parse as usual
         else
@@ -246,28 +246,28 @@ bool DialogueLineParser::parseLine(const std::string &_lineString, DialogueNode 
 
     if(lineString.empty()) return false;
 
-	const auto parseOutCommon = [this, &lineString](vector<string>* out_conditions,
-													vector<DialogueNode::Action>* out_actions,
-													string* out_goto)
-	{
-		//parse out conditions
-		if (out_conditions && lineString.empty() == false)
-		{
-			vector<string> groupContents;
-			parseGroups(lineString, k_ifBegin, k_ifEnd, groupContents);
-			for (const auto& content : groupContents)
-			{
-				out_conditions->push_back(content);
-			}
-		}
+    const auto parseOutCommon = [this, &lineString](vector<string>* out_conditions,
+                                                    vector<DialogueNode::Action>* out_actions,
+                                                    string* out_goto)
+    {
+        //parse out conditions
+        if (out_conditions && lineString.empty() == false)
+        {
+            vector<string> groupContents;
+            parseGroups(lineString, k_ifBegin, k_ifEnd, groupContents);
+            for (const auto& content : groupContents)
+            {
+                out_conditions->push_back(content);
+            }
+        }
 
-		//parse out actions
-		if (out_actions && lineString.empty() == false)
-		{
-			vector<vector<string>> actionGroups;
+        //parse out actions
+        if (out_actions && lineString.empty() == false)
+        {
+            vector<vector<string>> actionGroups;
             this->parseGroupedLists(lineString, k_actionBegin, k_actionEnd, k_separator, actionGroups);
-			for (auto& action : actionGroups)
-			{
+            for (auto& action : actionGroups)
+            {
                 if(action.empty())
                 {
                     CCLOGERROR("Failed to parse empty action");
@@ -279,20 +279,20 @@ bool DialogueLineParser::parseLine(const std::string &_lineString, DialogueNode 
                     DialogueNode::Action action = { name, params };
                     out_actions->push_back(action);
                 }
-			}
-		}
+            }
+        }
 
-		//parse out gotos
-		if (out_goto && lineString.empty() == false)
-		{
-			vector<string> groupContents;
-			parseGroups(lineString, k_gotoBegin, k_gotoEnd, groupContents);
-			if (groupContents.size() > 0)
-			{ //use first, ignore the rest
-				*out_goto = groupContents[0];
-			}
-		}
-	};
+        //parse out gotos
+        if (out_goto && lineString.empty() == false)
+        {
+            vector<string> groupContents;
+            parseGroups(lineString, k_gotoBegin, k_gotoEnd, groupContents);
+            if (groupContents.size() > 0)
+            { //use first, ignore the rest
+                *out_goto = groupContents[0];
+            }
+        }
+    };
 
     if(startsWith(lineString, k_optionShortcut))
     { //parse shortcut options
@@ -301,7 +301,7 @@ bool DialogueLineParser::parseLine(const std::string &_lineString, DialogueNode 
         DialogueNode::Option option;
         option.isShortcut = true;
 
-		parseOutCommon(&option.conditions, &option.actions, &option.gotoNode);
+        parseOutCommon(&option.conditions, &option.actions, &option.gotoNode);
 
         option.content = lineString;
         trim(option.content);
@@ -318,7 +318,7 @@ bool DialogueLineParser::parseLine(const std::string &_lineString, DialogueNode 
 
     DialogueNode::Line newLine;
 
-	//parse out gotos
+    //parse out gotos
     if (lineString.empty() == false)
     {
         vector<vector<string>> gotoParamGroups;
@@ -328,7 +328,7 @@ bool DialogueLineParser::parseLine(const std::string &_lineString, DialogueNode 
             if (params.size() == 1)
             {
                 newLine.gotoNode = params[0];
-				break;
+                break;
             }
             else if(params.size() > 1)
             {
@@ -338,7 +338,7 @@ bool DialogueLineParser::parseLine(const std::string &_lineString, DialogueNode 
         }
     }
 
-	parseOutCommon(&newLine.conditions, &newLine.actions, nullptr);
+    parseOutCommon(&newLine.conditions, &newLine.actions, nullptr);
 
     if(lineString.empty() == false)
     { //parse out actor key

@@ -10,7 +10,7 @@ struct DialogueNode
         std::string name;
         std::vector<std::string> params;
     };
-    
+
     struct Option
     {
         std::string content;
@@ -19,18 +19,18 @@ struct DialogueNode
         std::vector<std::string> conditions;
         std::vector<Action> actions;
     };
-    
+
     struct Line
     {
         std::string actorKey;
         std::string content;
-		std::vector<std::string> conditions;
+        std::vector<std::string> conditions;
         std::vector<Option> options;
         std::vector<Action> actions;
         std::string gotoNode;
     };
-    
-	std::string name;
-	std::string tags;
-	std::vector<Line> lines;
+
+    std::string name;
+    std::string tags;
+    std::vector<Line> lines;
 };
